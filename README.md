@@ -10,11 +10,11 @@ As of today (12th of September 2018) only the bag of words approach is implement
 
 This approach is based on lists of positive and negative words.
 
-First, all the words in the documents are lemmatized (eg: "leaves" -> "leaf").
-Then, it will compute a score for each word in the document:
-    - if the word is present in the list of positive words, its score is 1 (eg: "good")
-    - if the word is present in the list of negative words, its score is -1 (eg: "bad")
-    - otherwise it is 0
+First, all the words in the documents are lemmatized (eg: "leaves" -> "leaf").<br />
+Then, it will compute a score for each word in the document:<br />
+    - if the word is present in the list of positive words, its score is 1 (eg: "good")<br />
+    - if the word is present in the list of negative words, its score is -1 (eg: "bad")<br />
+    - otherwise it is 0<br />
     
 Then the score of the word is updated to take into account the context:
     - if there is a diminisher in the previous words it will multiply the score by 0.5 ("This is a partially nad"; "bad" will have a score of: -1 * 0.5 = -0.5 )
