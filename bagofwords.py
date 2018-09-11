@@ -164,7 +164,8 @@ def load_list_of_words(choice):
 
 def main():
     positive_words, negative_words, negations, diminishers, intensifiers = load_list_of_words("LM")
-    score = get_sentiment_doc("This is a very bad programmer, he cannot comment his code properly, he is the worst developper I ever saw!",positive_words, negative_words,negations,diminishers, intensifiers, log = True)
+    text = "This is a very bad programmer, he cannot comment his code properly, he is the worst developper I ever saw!"
+    score = get_sentiment_doc(text,positive_words, negative_words,negations,diminishers, intensifiers, log = True)
     print(score)
 
 if __name__ == '__main__':
