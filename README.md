@@ -4,7 +4,7 @@ This project is meant to perform sentiment analysis on text documents using two 
     - Bag of words <br />
     - Machine Learning
     
-As of today (12th of September 2018) only the bag of words approach is implemented
+As of today (12th of September 2018) only the bag of words approach is implemented.
 
 ## Bag of words
 

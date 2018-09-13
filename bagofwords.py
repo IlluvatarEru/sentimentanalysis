@@ -6,6 +6,7 @@ Created on Sat Jul  21 17:42:44 2018
 """
 
 import pandas as pd
+import numpy as np
 from nltk import word_tokenize, pos_tag
 from nltk.stem import WordNetLemmatizer
 import os
@@ -88,7 +89,7 @@ def get_sentiment_doc(doc,positive_words, negative_words,negations,diminishers, 
         - then for each positive (negative) word the score is incremented by 1 (-1)
         - the word score is multiplied by -1 if there is a negation among the three previous words (eg: "this is not bad"; "bad" will have a score of 1 * -1 = 1)
         - the word score is multiplied by 2 (0.5) if there is an intensifer (diminisher) among the previous three words (eg: "this is very bad"; "bad" will have a score of 2 * -1 = -2)
-    
+    The sentiment of the text is normalized by the square root of its length.
     
     :param doc: (string) the document text to analyze
     :param positive_words: (list of strings) the list of positive words (eg: "good")
@@ -109,12 +110,17 @@ def get_sentiment_doc(doc,positive_words, negative_words,negations,diminishers, 
     s = 0
     sp = 0
     sn = 0
-    for i in range(3, len(doc)):
+    n = len(doc)
+    
+    for i in range(0, n):
         word = doc[i]
         if not is_stop_word(word):
             if log == True:
                 print(word)
-            context = doc[i-3:i]
+            if i>=3:
+                context = doc[i-3:i]
+            else:
+                context = doc[0:i]
             if log == True:
                 print(context)
             s_w = context_score(word_score(word,positive_words,negative_words),context, negations, diminishers, intensifiers)
@@ -129,6 +135,9 @@ def get_sentiment_doc(doc,positive_words, negative_words,negations,diminishers, 
             else:
                 net.append(word)
             s+=s_w
+    s/=np.sqrt(n)
+    sp/=np.sqrt(n)
+    sn/=np.sqrt(n)
     if log == True:
         print("Words scored as positive: ", pos)
         print("Words scored as negative: ", neg)
@@ -165,6 +174,7 @@ def load_list_of_words(choice):
 def main():
     positive_words, negative_words, negations, diminishers, intensifiers = load_list_of_words("LM")
     text = "This is a very bad programmer, he cannot comment his code properly, he is the worst developper I ever saw!"
+    text = "very impressive"
     score = get_sentiment_doc(text,positive_words, negative_words,negations,diminishers, intensifiers, log = True)
     print(score)
 
